@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../db')
 
+
 const Company = sequelize.define('companies',{
     name: {
         type: Sequelize.STRING,
@@ -15,7 +16,7 @@ const Company = sequelize.define('companies',{
     description: {
         type: Sequelize.STRING,
         field: 'company_description',
-        allowNull: false
+        
     }
 },
     {
