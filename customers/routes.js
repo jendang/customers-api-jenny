@@ -1,20 +1,48 @@
 const { Router } = require('express')
 const Customer = require('./model')
+const Company = require('../companies/model')
 
 const router = new Router()
 
 router.get('/customers', (req, res, next) => {
-  Customer
-    .findAll()
-    .then(customers => {
-      res.send({ customers })
+  const limit = req.query.limit || 25
+  const offset = req.query.offset || 0
+  // adding pagination
+  //limit indicates how many results are on a page.
+  //Offset determines how many results to skip
+
+  // Customer
+  //   .count()
+  //   .then(total =>{
+  //     Customer
+  //     .findAll({
+  //       limit,offset
+  //     })
+  //     .then(customers => {
+  //       res.send({ customers,total })
+  //     })
+  //     .catch(error => next(error))
+  //   })
+  //   .catch(error => next(error))
+
+  //use Promise.all to get both of the results at the same time
+  //parallel Promises
+  Promise.all([
+    Customer.count(),
+    Customer.findAll({ limit, offset })
+  ])
+    .then(([total, customers]) => {
+      res.send({
+        customers, total
+      })
     })
     .catch(error => next(error))
+
 })
 
 router.get('/customers/:id', (req, res, next) => {
   Customer
-    .findById(req.params.id)
+    .findById(req.params.id, {include: [Company]})
     .then(customer => {
       if (!customer) {
         return res.status(404).send({

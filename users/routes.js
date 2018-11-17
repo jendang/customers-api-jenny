@@ -1,0 +1,29 @@
+const { Router } = require('express')
+const User = require('../users/model')
+//const bodyParser = require('body-parser')
+const bcrypt = require('bcrypt');
+//const auth = require('../auth/middleware')
+const router = new Router()
+
+router.post('/users', (req, res, next) => {
+const user = {
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 10)
+}
+  User
+    .create(user)
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({
+          message: `User does not exist`
+        })
+      }
+      return res.status(201).send(user.email)
+    })
+    .catch(error => next(error))
+})
+
+
+
+
+module.exports = router

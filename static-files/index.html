@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test API</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">></script>
+</head>
+<body>
+    <h1>Welcome to my Spotify</h1>
+    <button id="renderCompanies">Render my Companies</button>
+    
+    <div id="companies"></div>
+
+    <hr>
+   <div id="status"></div>
+   
+   <script type="text/javascript">
+        $(document).ready(() => {
+            console.log("hello my app")
+        })
+
+         $("#renderCompanies").click(() => {
+             //console.log("sabina is smart")
+            $.ajax({
+                url: 'companies/',
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+
+                    //const arr = Object.values(data)
+                    console.log(data)
+                    //console.log('ajax success!', arr[0])
+
+                    //const company = data.map(e => e.name)
+                    // let company
+                    // for(let i=0; i < data.length; i++){
+                    //     return data[i]
+                    // }
+                    // console.log($('#status').html(data[i]))
+                    //alert(data[0])
+                    $.each(data, function(index,el) {
+                       // alert(index,el)
+                      $('#status').html('companies list:' + el[index].name)
+                    })
+                    //const companies = data.map(company => )
+                }
+
+            })
+
+         })
+
+    
+   </script>
+
+
+   
+</body>
+</html>

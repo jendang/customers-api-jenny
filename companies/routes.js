@@ -4,12 +4,36 @@ const Company = require('./model')
 const router = new Router()
 
 router.get('/companies', (req, res, next) => {
-    Company
+  // Company.findAll('SELECT * from companies', (err,rows) => {
+  //   console.log(rows)
+  //})
+
+   Company
     .findAll()
     .then(companies => {
-      res.send({ companies })
+      //const companyName = companies.map(company => company.name)
+        res.send(companies)
+       //res.send()
     })
     .catch(error => next(error))
+  //const comp = test.map(test => test.name)
+  //adding pagination to app
+
+  // const limit = req.query.limit
+  // const offset = req.query.offset
+
+  // Company
+  //   .count()
+  //   .then(total => {
+  //     Company
+  //       .findAll({limit,offset})
+  //       .then(companies => {
+  //         res.send({companies,total})
+  //       })
+  //       .catch(error => next(error))
+  //   })
+  //   .catch(error => next(error))
+
 })
 
 router.get('/companies/:id', (req, res, next) => {
